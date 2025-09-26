@@ -1,0 +1,32 @@
+import tp3.*
+
+describe "Nave de carga de residuos radioactivos" {
+	const naveResiduos = new NaveDeResiduos(carga = 50, velocidad = 20000)
+	test "Una nave que transporta residuos radioactivos mantiene su carga luego de recibir una amenaza" {
+		naveResiduos.recibirAmenaza()
+		assert.equals(50, naveResiduos.carga())
+	}
+	test "Una nave que transporta residuos radioactivos frena al recibir una amenaza" {
+		naveResiduos.recibirAmenaza()
+		assert.equals(0, naveResiduos.velocidad())
+	}
+	
+	test "La velocidad máxima de una nave de residuos radioactivos es el 75% de una nave de carga común igual de cargada"{
+		const naveCarga = new NaveDeCarga(carga = 50)
+		assert.equals(naveCarga.velocidadMaxima() * 0.75, naveResiduos.velocidadMaxima())
+	}
+	
+	test "La velocidad máxima de una nave de residuos radioactivos sobrecargada es menor a la de una de residuos radioactivos que no está sobrecargada"{
+		const naveResiduosSobrecargada = new NaveDeResiduos(carga = 500, velocidad = 20000)
+		assert.that(naveResiduos.velocidadMaxima() > naveResiduosSobrecargada.velocidadMaxima())
+	}
+	
+	test "Una nave de carga de residuos radioactivos está excedida de velocidad si supera su velocidad máxima" {
+		const naveResiduosSobrecargada = new NaveDeResiduos(carga = 500, velocidad = 65000)
+		assert.that(naveResiduosSobrecargada.excedeVelocidad())
+	}
+	test "Una nave de carga de residuos radioactivos no está excedida de velocidad no si supera su velocidad máxima" {
+		const naveResiduosSobrecargada = new NaveDeResiduos(carga = 500, velocidad = 55000)
+		assert.notThat(naveResiduosSobrecargada.excedeVelocidad())
+	}
+}

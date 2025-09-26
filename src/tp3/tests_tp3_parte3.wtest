@@ -1,0 +1,34 @@
+import tp3.*
+
+describe "Propulsión" {
+	test "Una nave de pasajeros que no está excedida de velocidad se propulsa exitosamente, incrementando su velocidad" {
+		const naveDePasajeros = new NaveDePasajeros(cantidadDePasajeros = 6, velocidad = 22000)
+		naveDePasajeros.propulsar()
+		assert.equals(42000, naveDePasajeros.velocidad())
+	}
+
+	test "Una nave de pasajeros que está excedida de velocidad no puede propulsarse" {
+		const naveDePasajeros = new NaveDePasajeros(cantidadDePasajeros = 6, velocidad = 32000)
+		assert.throwsException({naveDePasajeros.propulsar()})
+	}
+	test "Una nave de carga común que está sobrecargada pero no está excedida de velocidad puede propulsarse, incrementando su velocidad" {
+		const naveSobrecargada = new NaveDeCarga(carga = 500, velocidad = 75000)
+		naveSobrecargada.propulsar()
+		assert.equals(95000, naveSobrecargada.velocidad())
+	}
+
+	test "Una nave de carga cualquiera que está excedida de velocidad no puede propulsarse" {
+		const naveCargada = new NaveDeCarga(carga = 500, velocidad = 81000)
+		assert.throwsException({naveCargada.propulsar()})
+	}
+	
+	test "Una nave de carga de residuos radioactivos sobrecargada que no está excedida de velocidad no puede propulsarse" {
+		const naveResiduosSobrecargada = new NaveDeResiduos(carga = 500, velocidad = 20000)
+		assert.throwsException({naveResiduosSobrecargada.propulsar()})
+	}
+	test "Una nave de carga de residuos radioactivos que no está sobrecargada ni excedida de velocidad sí puede propulsarse, incrementando su velocidad" {
+		const naveResiduosSobrecargada = new NaveDeResiduos(carga = 50, velocidad = 20000)
+		naveResiduosSobrecargada.propulsar()
+		assert.equals(40000, naveResiduosSobrecargada.velocidad())
+	}
+}

@@ -1,0 +1,59 @@
+import tp3.*
+
+describe "Nave de carga" {
+	const naveCargada = new NaveDeCarga(carga = 50)
+	const naveSobrecargada = new NaveDeCarga(carga = 500)
+
+	test "La nave no está sobrecargada si no supera las 100 toneladas" {
+		assert.notThat(naveCargada.sobrecargada())
+	}
+
+	test "La nave está sobrecargada si supera las 100 toneladas" {
+		assert.that(naveSobrecargada.sobrecargada())
+	}
+	
+	test "La velocidad máxima de una nave de carga es 100000 si no está sobrecargada" {
+		assert.equals(100000, naveCargada.velocidadMaxima())
+	}
+		
+	test "La velocidad máxima de una nave de carga es 80000 si está sobrecargada" {
+		assert.equals(80000, naveSobrecargada.velocidadMaxima())
+	}
+	
+	test "Cuando una nave de carga recibe una amenaza, descarta su carga" {
+		naveCargada.recibirAmenaza()
+		assert.equals(0, naveCargada.carga())
+	}
+
+	// Nuevo requerimiento
+	
+	test "Una nave de carga está excedida de velocidad si supera su velocidad máxima" {
+		naveSobrecargada.velocidad(75000)
+		assert.notThat(naveSobrecargada.excedeVelocidad())
+	}
+		
+	test "Una nave de carga no está excedida de velocidad si no supera su velocidad máxima" {
+		naveSobrecargada.velocidad(81000)
+		assert.that(naveSobrecargada.excedeVelocidad())
+	}
+		
+}
+
+
+describe "Nave de pasajeros" {
+	test "La velocidad maxima depende de la cantidad de pasajeros" {
+		const naveDePasajeros = new NaveDePasajeros(cantidadDePasajeros = 6)
+		assert.equals(30000, naveDePasajeros.velocidadMaxima())
+	}
+
+	// Nuevo requerimiento
+	
+	test "Una nave de pasajeros está excedida de velocidad si supera su velocidad máxima" {
+		const naveDePasajeros = new NaveDePasajeros(cantidadDePasajeros = 6, velocidad = 22000)
+		assert.notThat(naveDePasajeros.excedeVelocidad())
+	}
+	test "Una nave de pasajeros no está excedida de velocidad si no supera su velocidad máxima" {
+		const naveDePasajeros = new NaveDePasajeros(cantidadDePasajeros = 10, velocidad = 22000)
+		assert.that(naveDePasajeros.excedeVelocidad())
+	}
+}
